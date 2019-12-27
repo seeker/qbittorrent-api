@@ -15,7 +15,7 @@
 
   - name: Create qbittorrent user
     user:
-      name: qbittorrent
+      name: "{{ user }}"
       comment: "Bittorrent service"
 
   - name: Create qBittorrent systemd unit
