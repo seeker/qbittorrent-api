@@ -17,6 +17,19 @@
     user:
       name: "{{ user }}"
       comment: "Bittorrent service"
+  
+  - name: Create qBittorrent configuration directory
+    file:
+      path: /home/qbittorrent/.config/qBittorrent/
+      state: directory
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: u=rwx,g=rwx,o=
+
+  - name: Copy qBittorrent configuration
+    template:
+      src: qBittorrent.conf.j2
+      dest: /home/qbittorrent/.config/qBittorrent/qBittorrent.conf
 
   - name: Create qBittorrent systemd unit
     template:
