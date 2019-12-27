@@ -1,0 +1,34 @@
+---
+  - name: Install gnupg2 for adding PPA
+    apt:
+      name: gnupg2
+      update_cache: yes
+
+  - name: Add qBittorrent PPA
+    apt_repository:
+      repo: ppa:qbittorrent-team/qbittorrent-stable
+      state: present
+
+  - name: Install packages
+    apt:
+      name: qbittorrent
+
+  - name: Create qbittorrent user
+    user:
+      name: qbittorrent
+      comment: "Bittorrent service"
+
+  - name: Create qBittorrent systemd unit
+    template:
+      src: qbittorrent.service.j2
+      dest: /etc/systemd/system/qbittorrent.service
+      group: root
+      owner: root
+
+  - name: Enable and start qBittorrent service
+    systemd:
+      name: qbittorrent
+      daemon_reload: yes
+      enabled: yes
+      state: started
+

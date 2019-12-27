@@ -1,0 +1,15 @@
+[Unit]
+Description=A Bittorrent client
+
+Requires=vnc.service
+After=network.target vnc.service
+
+[Service]
+User={{ user }}
+Group={{ user }}
+ExecStart=/bin/sh -c "DISPLAY=":1" qbittorrent"
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target
+

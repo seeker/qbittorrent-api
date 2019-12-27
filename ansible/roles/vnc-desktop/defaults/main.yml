@@ -1,0 +1,12 @@
+---
+load_desktop: no
+desktop_package: "xfce4"
+user: "{{ ansible_hostname }}"
+vnc_password_path: "/home/{{ user }}/.vnc/passwd"
+display: ":1"
+vnc_password: 12345678
+# resolutions that the remote desktop should support
+resolutions:
+  - "1920x1080"
+  - "800x600"
+  - "2560x1440"

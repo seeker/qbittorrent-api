@@ -1,0 +1,82 @@
+---
+  - name: Install VNC
+    apt:
+      name: "tigervnc-standalone-server"
+
+  - name: Install desktop
+    apt:
+      name: "{{ desktop_package }}"
+    when: load_desktop
+  
+  - name: Setup Xfce terminal
+    block:
+      - name: Install Xfce terminal
+        apt:
+          name: xfce4-terminal
+
+      - name: Set Xfce as the default x-terminal emulator
+        alternatives:
+          name: x-terminal-emulator
+          path: /usr/bin/xfce4-terminal
+    when:
+      - load_desktop
+      - desktop_package == "xfce4"
+
+  - name: Create VNC directory
+    file:
+      state: directory
+      path: "/home/{{ user }}/.vnc/"
+      group: "{{ user }}"
+      owner: "{{ user }}"
+      mode: u=rwx,g=,o=
+
+  - name: Create temporary file for password
+    tempfile:
+      suffix: vnc
+    register: vnc_password_file
+
+  - name: Store VNC password
+    template:
+      src: vnc-password-file.j2
+      dest: "{{ vnc_password_file.path }}"
+      mode: u=rw,g=,o=
+  
+  - name: Touch VNC password file
+    file:
+      path: "{{ vnc_password_path }}"
+      state: touch
+      group: "{{ user }}"
+      owner: "{{ user }}"
+      mode: u=rwx,g=,o=
+
+  - name: Create VNC password file
+    shell: "cat {{ vnc_password_file.path }} | tigervncpasswd -f > {{ vnc_password_path }}"
+  
+  - name: Delete temporary password file
+    file:
+      path: "{{ vnc_password_file.path }}"
+      state: absent
+
+  - name: Create xstartup file
+    template:
+      src: xstartup.j2
+      dest: "/home/{{ user }}/.vnc/xstartup"
+      group: "{{ user }}"
+      owner: "{{ user }}"
+      mode: u=rwx,g=,o=
+    notify: Restart VNC server
+
+  - name: Create VNC systemd unit
+    template:
+      src: vnc.service.j2
+      dest: /etc/systemd/system/vnc.service
+      group: root
+      owner: root
+    notify: Restart VNC server
+
+  - name: Enable and start VNC service
+    systemd:
+      name: vnc
+      daemon_reload: yes
+      enabled: yes
+      state: started

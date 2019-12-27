@@ -1,0 +1,19 @@
+#!/bin/sh
+# This needs to be run before exec, otherwise it will not be executed
+vncconfig -iconic &
+
+# Uncomment the following two lines for normal desktop:
+{% if load_desktop %}
+unset SESSION_MANAGER
+exec /etc/X11/xinit/xinitrc
+{% else %}
+# unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+{% endif %}
+
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+xsetroot -solid grey
+
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+x-window-manager &

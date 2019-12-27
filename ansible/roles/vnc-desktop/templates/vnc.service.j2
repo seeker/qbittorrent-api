@@ -1,0 +1,13 @@
+[Unit]
+Description=Start the VNC desktop
+After=network.target
+
+[Service]
+User={{ user }}
+Group={{ user }}
+Type=forking
+ExecStart=/bin/sh -c "tigervncserver -localhost no{% for geometry in resolutions %} -geometry {{ geometry }}{% endfor %} {{ display }}"
+ExecStop=/bin/sh -c "tigervncserver -kill {{ display }}"
+
+[Install]
+WantedBy=multi-user.target

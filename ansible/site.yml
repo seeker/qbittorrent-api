@@ -1,0 +1,14 @@
+---
+- hosts: qbt
+  remote_user: vagrant
+  become: yes
+  pre_tasks:
+    - name: Create qbittorrent user
+      user:
+        name: qbittorrent
+        
+  roles:
+  - vnc-desktop
+  - qbittorrent
+  vars:
+    user: qbittorrent
