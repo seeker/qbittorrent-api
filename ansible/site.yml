@@ -1,6 +1,6 @@
 ---
 - hosts: qbt
-  remote_user: vagrant
+  remote_user: root
   become: yes
   pre_tasks:
     - name: Create qbittorrent user
