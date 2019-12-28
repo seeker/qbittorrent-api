@@ -105,3 +105,6 @@ venv.bak/
 
 # Vagrant work directory
 .vagrant/
+
+# PyCharm IDE
+.idea/
