@@ -2,10 +2,12 @@
   - name: Install VNC
     apt:
       name: "tigervnc-standalone-server"
+      cache_valid_time: "{{ apt_cache_valid_time }}"
 
   - name: Install desktop
     apt:
       name: "{{ desktop_package }}"
+      cache_valid_time: "{{ apt_cache_valid_time }}"
     when: load_desktop
   
   - name: Setup Xfce terminal
@@ -13,6 +15,7 @@
       - name: Install Xfce terminal
         apt:
           name: xfce4-terminal
+          cache_valid_time: "{{ apt_cache_valid_time }}"
 
       - name: Set Xfce as the default x-terminal emulator
         alternatives:

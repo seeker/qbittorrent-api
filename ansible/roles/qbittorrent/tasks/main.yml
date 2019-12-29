@@ -2,7 +2,7 @@
   - name: Install gnupg2 for adding PPA
     apt:
       name: gnupg2
-      update_cache: yes
+      cache_valid_time: "{{ apt_cache_valid_time }}"
 
   - name: Add qBittorrent PPA
     apt_repository:
@@ -12,6 +12,7 @@
   - name: Install packages
     apt:
       name: qbittorrent
+      cache_valid_time: "{{ apt_cache_valid_time }}"
 
   - name: Create qbittorrent user
     user:
