@@ -1,0 +1,14 @@
+---
+- name: Create download directories
+  file:
+    path: /home/qbittorrent/temp
+    state: directory
+    recurse: yes
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rw,g=rw,o=
+
+- name: Create torrent data file
+  command:
+    cmd: dd if=/dev/zero of=/home/qbittorrent/temp/zero bs=1M count=5
+    creates: /home/qbittorrent/temp/zero

@@ -10,5 +10,7 @@
   roles:
   - vnc-desktop
   - qbittorrent
+  - test-setup
+  
   vars:
     user: qbittorrent
