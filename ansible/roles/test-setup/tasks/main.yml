@@ -1,14 +1,24 @@
 ---
 - name: Create download directories
   file:
-    path: /home/qbittorrent/temp
+    path: "{{ temp_directory }}"
     state: directory
     recurse: yes
     owner: "{{ user }}"
     group: "{{ user }}"
-    mode: u=rw,g=rw,o=
+    mode: u=rwx,g=rwx,o=rx
 
-- name: Create torrent data file
+- name: Create file generation script
+  template:
+    src: create-test-files.sh.j2
+    dest: "{{ file_generation_script }}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=rwx,o=rx
+ 
+- name: Create torrent data files
   command:
-    cmd: dd if=/dev/zero of=/home/qbittorrent/temp/zero bs=1M count=5
-    creates: /home/qbittorrent/temp/zero
+    cmd: "{{ file_generation_script }}"
+    creates: "{{ temp_directory }}/zero"
+  become: yes
+  become_user: "{{ user }}"

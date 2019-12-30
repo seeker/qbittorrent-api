@@ -1,0 +1,4 @@
+---
+download_directory: /home/qbittorrent/Downloads
+temp_directory: "{{ download_directory }}/temp"
+file_generation_script: "/home/{{ user }}/file-gen.sh"
