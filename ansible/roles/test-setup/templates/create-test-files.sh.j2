@@ -2,3 +2,7 @@
 
 DOWNLOAD_DIR={{ download_directory }}
 TEMP_DIR={{ temp_directory }}
+
+rm $TEMP_DIR/zero
+rm $DOWNLOAD_DIR/zero
+dd if=/dev/zero of=$TEMP_DIR/zero bs=1M count=5

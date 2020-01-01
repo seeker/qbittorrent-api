@@ -19,6 +19,5 @@
 - name: Create torrent data files
   command:
     cmd: "{{ file_generation_script }}"
-    creates: "{{ temp_directory }}/zero"
   become: yes
   become_user: "{{ user }}"
