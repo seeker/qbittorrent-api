@@ -28,7 +28,7 @@ class TorrentTests(unittest.TestCase):
 
     def test_recheck_torrent(self):
         self.client.torrents.recheck(hashes=[self.zero_torrent_hash])
-        time.sleep(1)
+        time.sleep(2)
 
         torrent_info = self.client.torrents.info(hashes=[self.zero_torrent_hash])
 
